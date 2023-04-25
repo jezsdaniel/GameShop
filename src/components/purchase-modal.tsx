@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Modal} from 'react-native';
+import {appColors} from '../theme';
 
 interface PurchaseModalProps {
   visible: boolean;
@@ -27,11 +28,11 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
             Are you sure you want to buy {item} for {cost} {currency}?
           </Text>
           <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={onCancel} style={styles.cancelButton}>
+              <Text style={styles.buttonCancelText}>Cancel</Text>
+            </TouchableOpacity>
             <TouchableOpacity onPress={onConfirm} style={styles.confirmButton}>
               <Text style={styles.buttonText}>Confirm</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={onCancel} style={styles.cancelButton}>
-              <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -49,36 +50,50 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: '80%',
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    backgroundColor: appColors.background,
+    borderRadius: 12,
     padding: 20,
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    fontFamily: 'Lato-Bold',
+    color: appColors.primary,
+    marginBottom: 16,
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center',
     marginBottom: 20,
+    color: appColors.text,
+    fontFamily: 'Lato-Regular',
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   confirmButton: {
-    backgroundColor: 'green',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: appColors.primary,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 24,
+    marginLeft: 8,
   },
   cancelButton: {
-    backgroundColor: 'red',
-    padding: 10,
-    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 24,
+    borderWidth: 2,
+    borderColor: appColors.primary,
+    marginRight: 8,
   },
   buttonText: {
-    color: '#fff',
+    color: appColors.lightText,
     fontSize: 16,
+    fontFamily: 'Lato-Bold',
+  },
+  buttonCancelText: {
+    color: appColors.primary,
+    fontSize: 16,
+    fontFamily: 'Lato-Bold',
   },
 });

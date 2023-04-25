@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {appColors} from '../theme';
 
 interface PurchaseOverlayProps {
   visible: boolean;
@@ -37,23 +38,28 @@ const styles = StyleSheet.create({
   },
   overlay: {
     width: '80%',
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    backgroundColor: appColors.background,
+    borderRadius: 12,
     padding: 20,
   },
   text: {
-    fontSize: 18,
+    fontSize: 20,
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 24,
+    color: appColors.primary,
+    fontFamily: 'Lato-Bold',
   },
   dismissButton: {
-    backgroundColor: '#333',
-    padding: 10,
-    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 24,
+    borderWidth: 2,
+    borderColor: appColors.primary,
     alignSelf: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: appColors.primary,
     fontSize: 16,
+    fontFamily: 'Lato-Bold',
   },
 });
