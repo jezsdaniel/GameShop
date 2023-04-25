@@ -8,6 +8,7 @@ import {
   PurchaseOverlay,
   TopBar,
 } from '../components';
+import {AppCurrency} from '../data';
 import {appColors} from '../theme';
 
 export const HomeScreen = () => {
@@ -21,9 +22,70 @@ export const HomeScreen = () => {
   const [overlayMessage, setOverlayMessage] = useState('');
 
   const [items, setItems] = useState<ItemProps[]>([
-    {id: 1, name: 'Item 1', cost: 100, currency: 'Credits', purchased: false},
-    {id: 2, name: 'Item 2', cost: 10, currency: 'Premium', purchased: false},
-    {id: 3, name: 'Item 3', cost: 300, currency: 'Credits', purchased: false},
+    {
+      id: 1,
+      name: 'Hero Sword',
+      cost: 100,
+      image: require('../assets/images/sword.png'),
+      currency: AppCurrency.Credits,
+      purchased: true,
+    },
+    {
+      id: 2,
+      name: 'Double Sword',
+      cost: 10,
+      image: require('../assets/images/swords.png'),
+      currency: AppCurrency.Premium,
+      purchased: false,
+    },
+    {
+      id: 3,
+      name: 'Shield of the King',
+      cost: 300,
+      image: require('../assets/images/shield.png'),
+      currency: AppCurrency.Credits,
+      purchased: false,
+    },
+    {
+      id: 4,
+      name: 'Spartan Helmet',
+      cost: 50,
+      image: require('../assets/images/spartan.png'),
+      currency: AppCurrency.Premium,
+      purchased: false,
+    },
+    {
+      id: 5,
+      name: 'Armor of the Gods',
+      cost: 500,
+      image: require('../assets/images/armor.png'),
+      currency: AppCurrency.Credits,
+      purchased: false,
+    },
+    {
+      id: 6,
+      name: 'Spear of the Legion',
+      cost: 1000,
+      image: require('../assets/images/spear.png'),
+      currency: AppCurrency.Premium,
+      purchased: true,
+    },
+    {
+      id: 7,
+      name: 'Map of the World',
+      cost: 160,
+      image: require('../assets/images/treasure-map.png'),
+      currency: AppCurrency.Credits,
+      purchased: false,
+    },
+    {
+      id: 8,
+      name: 'Extra Life',
+      cost: 20,
+      image: require('../assets/images/heart.png'),
+      currency: AppCurrency.Premium,
+      purchased: false,
+    },
   ]);
 
   const handleItemSelected = (item: ItemProps) => {

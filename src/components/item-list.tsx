@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, FlatList} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 
 import {Item, ItemProps} from './item';
 
@@ -10,14 +10,17 @@ interface ItemListProps {
 
 export const ItemList: React.FC<ItemListProps> = ({items, onItemSelected}) => {
   return (
-    <View>
-      <FlatList
-        data={items}
-        renderItem={({item}) => (
-          <Item {...item} onPress={() => onItemSelected(item)} />
-        )}
-        keyExtractor={item => item.id.toString()}
-      />
-    </View>
+    <FlatList
+      data={items}
+      renderItem={({item}) => (
+        <Item {...item} onPress={() => onItemSelected(item)} />
+      )}
+      keyExtractor={item => item.id.toString()}
+      style={styles.list}
+    />
   );
 };
+
+const styles = StyleSheet.create({
+  list: {},
+});

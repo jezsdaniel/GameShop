@@ -1,11 +1,23 @@
 import React from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  View,
+  Image,
+  ImageSourcePropType,
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+
+import {AppCurrency} from '../data';
+import {appColors} from '../theme';
 
 export interface ItemProps {
   id: number;
   name: string;
   cost: number;
-  currency: string;
+  image: ImageSourcePropType;
+  currency: AppCurrency;
   purchased: boolean;
 }
 
@@ -16,35 +28,121 @@ interface ItemComponentProps extends ItemProps {
 export const Item: React.FC<ItemComponentProps> = ({
   name,
   cost,
+  image,
   currency,
   purchased,
   onPress,
 }) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[styles.container, purchased ? styles.purchased : {}]}>
-      <Text style={styles.text}>{name}</Text>
-      <Text style={styles.text}>
-        {cost} {currency}
-      </Text>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        <Image source={image} style={styles.image} />
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>{name}</Text>
+        <View style={styles.currencyContainer}>
+          <Text style={styles.text}>{cost}</Text>
+          <Image
+            source={
+              currency === AppCurrency.Premium
+                ? require('../assets/images/diamond.png')
+                : require('../assets/images/star.png')
+            }
+            style={styles.currencyImage}
+          />
+        </View>
+      </View>
+      {purchased ? (
+        <View style={styles.purchasedButton}>
+          <Text style={styles.buttonPurchasedText}>PURCHASED</Text>
+        </View>
+      ) : (
+        <TouchableOpacity onPress={onPress} style={styles.button}>
+          <LinearGradient
+            colors={[appColors.primary, appColors.tertiary]}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 1}}
+            style={styles.linearGradient}>
+            <Text style={styles.buttonText}>BUY</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
-    marginVertical: 5,
-    backgroundColor: '#f0f0f0',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: appColors.background,
   },
-  purchased: {
-    backgroundColor: '#d0f0c0',
+  imageContainer: {
+    width: 72,
+    height: 72,
+    borderRadius: 20,
+    backgroundColor: appColors.tertiary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: appColors.secondaryDark,
+  },
+  image: {
+    width: 40,
+    height: 40,
+  },
+  currencyImage: {
+    width: 24,
+    height: 24,
+    marginLeft: 4,
+  },
+  textContainer: {
+    marginLeft: 16,
+    marginRight: 16,
+    flex: 1,
+  },
+  currencyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8,
   },
   text: {
-    fontSize: 16,
+    fontSize: 20,
+    color: appColors.text,
+    fontFamily: 'Lato-Regular',
+  },
+  button: {
+    borderRadius: 20,
+    height: 40,
+  },
+  linearGradient: {
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+    borderRadius: 20,
+    height: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 14,
+    fontFamily: 'Lato-Bold',
+    color: appColors.lightText,
+  },
+  purchasedButton: {
+    borderRadius: 20,
+    height: 40,
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: appColors.primaryDark,
+  },
+  buttonPurchasedText: {
+    fontSize: 14,
+    fontFamily: 'Lato-Bold',
+    color: appColors.text,
   },
 });
