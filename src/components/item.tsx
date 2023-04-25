@@ -1,38 +1,25 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  View,
-  Image,
-  ImageSourcePropType,
-} from 'react-native';
+import {TouchableOpacity, Text, StyleSheet, View, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import {AppCurrency} from '../data';
+import {AppCurrency, ItemProps} from '../data';
+import {useAppSelector} from '../store/hooks';
 import {appColors} from '../theme';
-
-export interface ItemProps {
-  id: number;
-  name: string;
-  cost: number;
-  image: ImageSourcePropType;
-  currency: AppCurrency;
-  purchased: boolean;
-}
 
 interface ItemComponentProps extends ItemProps {
   onPress: () => void;
 }
 
 export const Item: React.FC<ItemComponentProps> = ({
+  id,
   name,
   cost,
   image,
   currency,
-  purchased,
   onPress,
 }) => {
+  const appState = useAppSelector(state => state.app);
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -52,7 +39,7 @@ export const Item: React.FC<ItemComponentProps> = ({
           />
         </View>
       </View>
-      {purchased ? (
+      {appState.purchasedItems.find(item => item.id === id) ? (
         <View style={styles.purchasedButton}>
           <Text style={styles.buttonPurchasedText}>PURCHASED</Text>
         </View>

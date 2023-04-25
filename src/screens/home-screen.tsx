@@ -1,19 +1,15 @@
 import React, {useState} from 'react';
 import {StyleSheet, SafeAreaView, StatusBar} from 'react-native';
 
-import {
-  ItemList,
-  ItemProps,
-  PurchaseModal,
-  PurchaseOverlay,
-  TopBar,
-} from '../components';
-import {AppCurrency} from '../data';
+import {ItemList, PurchaseModal, PurchaseOverlay, TopBar} from '../components';
+import {AppCurrency, ItemProps} from '../data';
+import {purchaseItem} from '../store/app-slice';
+import {useAppDispatch, useAppSelector} from '../store/hooks';
 import {appColors} from '../theme';
 
 export const HomeScreen = () => {
-  const [credits, setCredits] = useState(1000);
-  const [premiumCurrency, setPremiumCurrency] = useState(50);
+  const dispatch = useAppDispatch();
+  const appState = useAppSelector(state => state.app);
 
   const [selectedItem, setSelectedItem] = useState<ItemProps | null>(null);
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false);
@@ -21,80 +17,7 @@ export const HomeScreen = () => {
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [overlayMessage, setOverlayMessage] = useState('');
 
-  const [items, setItems] = useState<ItemProps[]>([
-    {
-      id: 1,
-      name: 'Hero Sword',
-      cost: 100,
-      image: require('../assets/images/sword.png'),
-      currency: AppCurrency.Credits,
-      purchased: true,
-    },
-    {
-      id: 2,
-      name: 'Double Sword',
-      cost: 10,
-      image: require('../assets/images/swords.png'),
-      currency: AppCurrency.Premium,
-      purchased: false,
-    },
-    {
-      id: 3,
-      name: 'Shield of the King',
-      cost: 300,
-      image: require('../assets/images/shield.png'),
-      currency: AppCurrency.Credits,
-      purchased: false,
-    },
-    {
-      id: 4,
-      name: 'Spartan Helmet',
-      cost: 50,
-      image: require('../assets/images/spartan.png'),
-      currency: AppCurrency.Premium,
-      purchased: false,
-    },
-    {
-      id: 5,
-      name: 'Armor of the Gods',
-      cost: 500,
-      image: require('../assets/images/armor.png'),
-      currency: AppCurrency.Credits,
-      purchased: false,
-    },
-    {
-      id: 6,
-      name: 'Spear of the Legion',
-      cost: 1000,
-      image: require('../assets/images/spear.png'),
-      currency: AppCurrency.Premium,
-      purchased: true,
-    },
-    {
-      id: 7,
-      name: 'Map of the World',
-      cost: 160,
-      image: require('../assets/images/treasure-map.png'),
-      currency: AppCurrency.Credits,
-      purchased: false,
-    },
-    {
-      id: 8,
-      name: 'Extra Life',
-      cost: 20,
-      image: require('../assets/images/heart.png'),
-      currency: AppCurrency.Premium,
-      purchased: false,
-    },
-  ]);
-
   const handleItemSelected = (item: ItemProps) => {
-    if (item.purchased) {
-      setOverlayMessage('This item is already purchased.');
-      setOverlayVisible(true);
-      return;
-    }
-
     setSelectedItem(item);
     setPurchaseModalVisible(true);
   };
@@ -105,28 +28,19 @@ export const HomeScreen = () => {
     }
 
     const newCredits =
-      selectedItem.currency === 'Credits'
-        ? credits - selectedItem.cost
-        : credits;
+      selectedItem.currency === AppCurrency.Credits
+        ? appState.credits - selectedItem.cost
+        : appState.credits;
     const newPremiumCurrency =
-      selectedItem.currency === 'Premium'
-        ? premiumCurrency - selectedItem.cost
-        : premiumCurrency;
+      selectedItem.currency === AppCurrency.Premium
+        ? appState.premium - selectedItem.cost
+        : appState.premium;
 
     if (newCredits < 0 || newPremiumCurrency < 0) {
-      setOverlayMessage('Not enough credits or premium currency.');
+      setOverlayMessage('Not enough currency to purchase this item');
       setOverlayVisible(true);
     } else {
-      setCredits(newCredits);
-      setPremiumCurrency(newPremiumCurrency);
-
-      // Update the purchased status of the item
-      const updatedItems = items.map(item =>
-        item.id === selectedItem.id ? {...item, purchased: true} : item,
-      );
-
-      setItems([...updatedItems]);
-
+      dispatch(purchaseItem(selectedItem));
       setOverlayMessage('Purchase successful!');
       setOverlayVisible(true);
     }
@@ -141,8 +55,8 @@ export const HomeScreen = () => {
         backgroundColor={appColors.primary}
         barStyle="light-content"
       />
-      <TopBar credits={credits} premiumCurrency={premiumCurrency} />
-      <ItemList items={items} onItemSelected={handleItemSelected} />
+      <TopBar />
+      <ItemList onItemSelected={handleItemSelected} />
       <PurchaseModal
         visible={purchaseModalVisible}
         item={selectedItem?.name || ''}

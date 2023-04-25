@@ -1,14 +1,15 @@
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
-import {Item, ItemProps} from './item';
+import {ItemProps} from '../data';
+import {items} from '../data/sample-data';
+import {Item} from './item';
 
 interface ItemListProps {
-  items: ItemProps[];
   onItemSelected: (item: ItemProps) => void;
 }
 
-export const ItemList: React.FC<ItemListProps> = ({items, onItemSelected}) => {
+export const ItemList: React.FC<ItemListProps> = ({onItemSelected}) => {
   return (
     <FlatList
       data={items}

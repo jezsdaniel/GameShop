@@ -1,25 +1,23 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 
+import {useAppSelector} from '../store/hooks';
 import {appColors} from '../theme';
 
-interface TopBarProps {
-  credits: number;
-  premiumCurrency: number;
-}
+export const TopBar: React.FC = () => {
+  const appState = useAppSelector(state => state.app);
 
-export const TopBar: React.FC<TopBarProps> = ({credits, premiumCurrency}) => {
   return (
     <View style={styles.container}>
       <View style={styles.currencyContainer}>
-        <Text style={styles.text}>Credits: {credits}</Text>
+        <Text style={styles.text}>Credits: {appState.credits}</Text>
         <Image
           source={require('../assets/images/star.png')}
           style={styles.image}
         />
       </View>
       <View style={styles.currencyContainer}>
-        <Text style={styles.text}>Premium: {premiumCurrency}</Text>
+        <Text style={styles.text}>Premium: {appState.premium}</Text>
         <Image
           source={require('../assets/images/diamond.png')}
           style={styles.image}
