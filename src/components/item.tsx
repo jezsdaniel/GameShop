@@ -21,7 +21,7 @@ export const Item: React.FC<ItemComponentProps> = ({
   const appState = useAppSelector(state => state.app);
 
   return (
-    <View style={styles.container}>
+    <View testID={`item-${id}`} style={styles.container}>
       <View style={styles.imageContainer}>
         <Image source={image} style={styles.image} />
       </View>
@@ -40,11 +40,14 @@ export const Item: React.FC<ItemComponentProps> = ({
         </View>
       </View>
       {appState.purchasedItems.find(item => item.id === id) ? (
-        <View style={styles.purchasedButton}>
+        <View testID={`item-${id}-purchased`} style={styles.purchasedButton}>
           <Text style={styles.buttonPurchasedText}>PURCHASED</Text>
         </View>
       ) : (
-        <TouchableOpacity onPress={onPress} style={styles.button}>
+        <TouchableOpacity
+          testID={`item-${id}-button`}
+          onPress={onPress}
+          style={styles.button}>
           <LinearGradient
             colors={[appColors.primary, appColors.tertiary]}
             start={{x: 0, y: 0}}

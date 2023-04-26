@@ -65,7 +65,7 @@ export const TopBar: React.FC = () => {
   });
 
   return (
-    <View style={styles.container}>
+    <View testID="top-bar" style={styles.container}>
       <View style={styles.currencyContainer}>
         <Animated.Text style={[styles.text, creditsStyle]}>
           Credits: {appState.credits}

@@ -20,7 +20,11 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
   onCancel,
 }) => {
   return (
-    <Modal animationType="slide" transparent visible={visible}>
+    <Modal
+      testID="purchase-modal"
+      animationType="slide"
+      transparent
+      visible={visible}>
       <View style={styles.container}>
         <View style={styles.modal}>
           <Text style={styles.title}>Confirm Purchase</Text>
@@ -28,10 +32,16 @@ export const PurchaseModal: React.FC<PurchaseModalProps> = ({
             Are you sure you want to buy {item} for {cost} {currency}?
           </Text>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={onCancel} style={styles.cancelButton}>
+            <TouchableOpacity
+              testID="purchase-cancel-button"
+              onPress={onCancel}
+              style={styles.cancelButton}>
               <Text style={styles.buttonCancelText}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={onConfirm} style={styles.confirmButton}>
+            <TouchableOpacity
+              testID="purchase-confirm-button"
+              onPress={onConfirm}
+              style={styles.confirmButton}>
               <Text style={styles.buttonText}>Confirm</Text>
             </TouchableOpacity>
           </View>

@@ -12,6 +12,7 @@ interface ItemListProps {
 export const ItemList: React.FC<ItemListProps> = ({onItemSelected}) => {
   return (
     <FlatList
+      testID="item-list"
       data={items}
       renderItem={({item}) => (
         <Item {...item} onPress={() => onItemSelected(item)} />
