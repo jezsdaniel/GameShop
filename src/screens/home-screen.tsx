@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, SafeAreaView, StatusBar} from 'react-native';
+import {StyleSheet, SafeAreaView, StatusBar, View} from 'react-native';
 
 import {ItemList, PurchaseModal, PurchaseOverlay, TopBar} from '../components';
 import {AppCurrency, ItemProps} from '../data';
@@ -49,32 +49,46 @@ export const HomeScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar
-        animated={true}
-        backgroundColor={appColors.primary}
-        barStyle="light-content"
-      />
-      <TopBar />
-      <ItemList onItemSelected={handleItemSelected} />
-      <PurchaseModal
-        visible={purchaseModalVisible}
-        item={selectedItem?.name || ''}
-        cost={selectedItem?.cost || 0}
-        currency={selectedItem?.currency || ''}
-        onConfirm={handlePurchaseConfirm}
-        onCancel={() => setPurchaseModalVisible(false)}
-      />
-      <PurchaseOverlay
-        visible={overlayVisible}
-        message={overlayMessage}
-        onDismiss={() => setOverlayVisible(false)}
-      />
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={styles.topSafeArea} />
+      <SafeAreaView style={styles.container}>
+        <View style={styles.statusBar}>
+          <StatusBar
+            backgroundColor={appColors.primary}
+            barStyle="light-content"
+          />
+        </View>
+        <TopBar />
+        <ItemList onItemSelected={handleItemSelected} />
+        <PurchaseModal
+          visible={purchaseModalVisible}
+          item={selectedItem?.name || ''}
+          cost={selectedItem?.cost || 0}
+          currency={selectedItem?.currency || ''}
+          onConfirm={handlePurchaseConfirm}
+          onCancel={() => setPurchaseModalVisible(false)}
+        />
+        <PurchaseOverlay
+          visible={overlayVisible}
+          message={overlayMessage}
+          onDismiss={() => setOverlayVisible(false)}
+        />
+      </SafeAreaView>
+    </>
   );
 };
 
+const BAR_HEIGHT = StatusBar.currentHeight;
+
 const styles = StyleSheet.create({
+  statusBar: {
+    backgroundColor: appColors.primary,
+    height: BAR_HEIGHT,
+  },
+  topSafeArea: {
+    flex: 0,
+    backgroundColor: appColors.primary,
+  },
   container: {
     flex: 1,
     backgroundColor: appColors.background,
